@@ -8,47 +8,52 @@
 import Foundation
 
 // Define a struct for the GraphQL request
-struct GraphQLRequest: Encodable {
-    let query: String
-    let variables: [String: AnyEncodable]?
+public struct GraphQLRequest: Encodable {
+    public let query: String
+    public let variables: [String: AnyEncodable]?
+    
+    public init(query: String, variables: [String: AnyEncodable]? = nil) {
+        self.query = query
+        self.variables = variables
+    }
 }
 
 // Helper struct to encode variables of any type
-struct AnyEncodable: Encodable {
+public struct AnyEncodable: Encodable {
     private let encodeClosure: (Encoder) throws -> Void
 
-    init<T: Encodable>(_ value: T) {
+    public init<T: Encodable>(_ value: T) {
         self.encodeClosure = value.encode
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         try encodeClosure(encoder)
     }
 }
 
 // Define a struct for the GraphQL response
-struct GraphQLResponse<T: Decodable>: Decodable {
-    let data: T?
-    let errors: [GraphQLError]?
+public struct GraphQLResponse<T: Decodable>: Decodable {
+    public let data: T?
+    public let errors: [GraphQLError]?
 }
 
 // Define a struct for GraphQL errors
-struct GraphQLError: Decodable {
-    let message: String
+public struct GraphQLError: Decodable {
+    public let message: String
 }
 
 // Service handler class
-class GraphQLService {
+public class GraphQLService {
     private let endpointURL: URL
 
-    init(endpoint: String) {
+    public init(endpoint: String) {
         guard let url = URL(string: endpoint) else {
             fatalError("Invalid URL")
         }
         self.endpointURL = url
     }
 
-    func performQuery<T: Decodable>(
+    public func performQuery<T: Decodable>(
         query: String,
         variables: [String: AnyEncodable]? = nil,
         responseType: T.Type,
