@@ -52,7 +52,7 @@ class GraphQLService {
         query: String,
         variables: [String: AnyEncodable]? = nil,
         responseType: T.Type,
-        method: String = "POST", // Default to POST
+        method: HttpMethod, // Default to POST
         headers: [String: String]? = nil,
         queryParams: [String: String]? = nil,
         completion: @escaping (Result<T, Error>) -> Void
@@ -69,7 +69,7 @@ class GraphQLService {
 
         // Create the URLRequest
         var request = URLRequest(url: urlWithParams)
-        request.httpMethod = method
+        request.httpMethod = method.rawValue
 
         // Add headers if provided
         headers?.forEach { key, value in
@@ -77,7 +77,7 @@ class GraphQLService {
         }
 
         // Add body for POST requests
-        if method == "POST" {
+        if method == .post {
             let requestBody = GraphQLRequest(query: query, variables: variables)
             guard let jsonData = try? JSONEncoder().encode(requestBody) else {
                 completion(.failure(NSError(domain: "EncodingError", code: -1, userInfo: nil)))
