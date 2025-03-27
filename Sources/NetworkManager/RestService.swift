@@ -145,10 +145,18 @@ public class RestService {
 
 // Media struct for file uploads
 public struct Media {
-    let fieldName: String
-    let fileName: String
-    let mimeType: String
-    let data: Data
+    public let fieldName: String
+    public let fileName: String
+    public let mimeType: String
+    public let data: Data
+
+    // Public initializer
+    public init(fieldName: String, fileName: String, mimeType: String, data: Data) {
+        self.fieldName = fieldName
+        self.fileName = fileName
+        self.mimeType = mimeType
+        self.data = data
+    }
 }
 
 // Extension to append Data
