@@ -7,17 +7,17 @@
 
 import Foundation
 
-class RestService {
+public class RestService {
     private let baseURL: URL
 
-    init(baseURL: String) {
+    public init(baseURL: String) {
         guard let url = URL(string: baseURL) else {
             fatalError("Invalid Base URL")
         }
         self.baseURL = url
     }
 
-    func performRequest<T: Decodable>(
+    public func performRequest<T: Decodable>(
         endpoint: String,
         method: HttpMethod,
         headers: [String: String]? = nil,
@@ -73,7 +73,7 @@ class RestService {
         }.resume()
     }
 
-    func uploadMedia(
+    public func uploadMedia(
         endpoint: String,
         method: String = "POST",
         headers: [String: String]? = nil,
@@ -144,7 +144,7 @@ class RestService {
 }
 
 // Media struct for file uploads
-struct Media {
+public struct Media {
     let fieldName: String
     let fileName: String
     let mimeType: String
@@ -158,7 +158,7 @@ extension Data {
     }
 }
 
-enum HttpMethod: String {
+public enum HttpMethod: String {
     case get = "GET"
     case post = "POST"
     case put = "PUT"
